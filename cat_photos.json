@@ -1,14 +1,23 @@
 [
   {
     "file": "source_img/cat1.jpg",
-    "mouth": { "x": 430, "y": 390 }
+    "mouth": {
+      "x": 430,
+      "y": 380
+    }
   },
   {
     "file": "source_img/cat2.jpg",
-    "mouth": { "x": 530, "y": 330 }
+    "mouth": {
+      "x": 530,
+      "y": 330
+    }
   },
   {
     "file": "source_img/cat3.jpg",
-    "mouth": { "x": 330, "y": 310 }
+    "mouth": {
+      "x": 421,
+      "y": 273
+    }
   }
 ]
