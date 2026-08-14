@@ -34,6 +34,9 @@
   }
   .bubble {
     position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     background: #fff;
     border: 2px solid #333;
     border-radius: 16px;
@@ -44,31 +47,17 @@
     color: #222;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     pointer-events: none;
-    transform: translate(-50%, calc(-100% - 25px));
     white-space: normal;
     word-wrap: break-word;
     z-index: 10;
   }
-  .bubble::after {
-    content: '';
+  #spike {
     position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 25px 10px 0;
-    border-style: solid;
-    border-color: #333 transparent transparent transparent;
-  }
-  .bubble::before {
-    content: '';
-    position: absolute;
-    bottom: -22px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 22px 8px 0;
-    border-style: solid;
-    border-color: #fff transparent transparent transparent;
-    z-index: 1;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9;
+    overflow: visible;
   }
   .controls { margin-top: 20px; }
   button {
@@ -91,6 +80,7 @@
 
 <div class="scene" id="scene">
   <img id="catImg" src="" alt="Random cat">
+  <svg id="spike"></svg>
   <div class="bubble" id="bubble">...</div>
 </div>
 
@@ -109,11 +99,13 @@
 (async () => {
   const catImg = document.getElementById('catImg');
   const bubble = document.getElementById('bubble');
+  const spike = document.getElementById('spike');
   const scene = document.getElementById('scene');
   const errorDiv = document.getElementById('error');
 
   let photos = [];
   let speeches = [];
+  let currentPhoto = null;
 
   async function loadFromFiles() {
     const pFile = document.getElementById('photosFile').files[0];
@@ -173,29 +165,55 @@
     const speech = pickRandom(speeches);
 
     bubble.textContent = speech;
-
-    // Reset bubble position so it's hidden while image loads
-    bubble.style.left = '0px';
-    bubble.style.top = '0px';
-    bubble.style.display = 'none';
+    bubble.style.display = 'none'; // hide while image loads
+    spike.innerHTML = '';
+    currentPhoto = photo;
 
     catImg.src = photo.file;
 
     catImg.onload = () => {
       bubble.style.display = 'block';
-      if (photo.mouth) {
-        const scale = catImg.clientWidth / catImg.naturalWidth;
-        const x = photo.mouth.x * scale;
-        const y = photo.mouth.y * scale;
-        bubble.style.left = x + 'px';
-        bubble.style.top = y + 'px';
-      } else {
-        // default to center if no annotation
-        bubble.style.left = (catImg.clientWidth / 2) + 'px';
-        bubble.style.top = (catImg.clientHeight / 2) + 'px';
-      }
+      positionBubble();
     };
   }
+
+  function positionBubble() {
+    const w = catImg.clientWidth;
+    const h = catImg.clientHeight;
+
+    let mx, my; // mouth in rendered pixels
+    if (currentPhoto && currentPhoto.mouth) {
+      const scale = w / catImg.naturalWidth;
+      mx = currentPhoto.mouth.x * scale;
+      my = currentPhoto.mouth.y * scale;
+    } else {
+      mx = w / 2;
+      my = h / 2;
+    }
+
+    // Size the spike SVG to cover the image
+    spike.setAttribute('width', w);
+    spike.setAttribute('height', h);
+    spike.setAttribute('viewBox', `0 0 ${w} ${h}`);
+
+    // Slim tapered spike from bubble bottom to the mouth (pointed tip)
+    const bx = w / 2;              // bubble is centered at top
+    const by = bubble.offsetHeight; // bubble bottom edge (top: 0)
+    const len = Math.hypot(mx - bx, my - by);
+    const ux = (mx - bx) / len;    // unit vector bubble -> mouth
+    const uy = (my - by) / len;
+    const px = -uy, py = ux;       // perpendicular
+    const base = 5;                // half-width of the spike base
+    const sx = bx - uy * 6;        // start slightly inside the bubble so the base seam is hidden
+    const sy = by + ux * 6;
+
+    spike.innerHTML = `
+      <polygon points="${sx + px * base},${sy + py * base} ${mx},${my} ${sx - px * base},${sy - py * base}"
+               fill="#fff" stroke="#333" stroke-width="2" stroke-linejoin="round"/>
+    `;
+  }
+
+  window.addEventListener('resize', positionBubble);
 })();
 </script>
 </body>
