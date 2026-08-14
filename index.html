@@ -44,7 +44,7 @@
     color: #222;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     pointer-events: none;
-    transform: translate(-50%, -120%);
+    transform: translate(-50%, calc(-100% - 50px));
     white-space: normal;
     word-wrap: break-word;
     z-index: 10;
@@ -52,20 +52,20 @@
   .bubble::after {
     content: '';
     position: absolute;
-    bottom: -10px;
+    bottom: -50px;
     left: 50%;
     transform: translateX(-50%);
-    border-width: 10px 10px 0;
+    border-width: 50px 14px 0;
     border-style: solid;
     border-color: #333 transparent transparent transparent;
   }
   .bubble::before {
     content: '';
     position: absolute;
-    bottom: -6px;
+    bottom: -45px;
     left: 50%;
     transform: translateX(-50%);
-    border-width: 8px 8px 0;
+    border-width: 44px 12px 0;
     border-style: solid;
     border-color: #fff transparent transparent transparent;
     z-index: 1;
