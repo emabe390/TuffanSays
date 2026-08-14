@@ -77,13 +77,17 @@ function show(index) {
   updateJson();
 }
 
-function placeMarker(x, y) {
+function placeMarker(nx, ny) {
+  const img = document.getElementById('catImg');
   const wrap = document.getElementById('imgWrap');
   wrap.querySelectorAll('.marker').forEach(m => m.remove());
   const m = document.createElement('div');
   m.className = 'marker';
-  m.style.left = x + 'px';
-  m.style.top = y + 'px';
+  // Convert natural coordinates back to rendered coordinates for display
+  const scaleX = img.naturalWidth ? (img.clientWidth / img.naturalWidth) : 1;
+  const scaleY = img.naturalHeight ? (img.clientHeight / img.naturalHeight) : 1;
+  m.style.left = (nx * scaleX) + 'px';
+  m.style.top = (ny * scaleY) + 'px';
   wrap.appendChild(m);
 }
 
@@ -92,13 +96,17 @@ function updateJson() {
 }
 
 document.getElementById('catImg').addEventListener('click', (e) => {
-  const rect = e.target.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  photos[current].mouth = { x: Math.round(x), y: Math.round(y) };
-  placeMarker(x, y);
+  const img = e.target;
+  const rect = img.getBoundingClientRect();
+  const rx = e.clientX - rect.left;
+  const ry = e.clientY - rect.top;
+  // Store coordinates in natural image pixel space so they scale correctly on the main site
+  const nx = img.naturalWidth ? Math.round(rx * (img.naturalWidth / img.clientWidth)) : Math.round(rx);
+  const ny = img.naturalHeight ? Math.round(ry * (img.naturalHeight / img.clientHeight)) : Math.round(ry);
+  photos[current].mouth = { x: nx, y: ny };
+  placeMarker(nx, ny);
   updateJson();
-  document.getElementById('status').textContent = `Set mouth for image ${current + 1} to (${Math.round(x)}, ${Math.round(y)})`;
+  document.getElementById('status').textContent = `Set mouth for image ${current + 1} to natural coords (${nx}, ${ny})`;
 });
 
 document.getElementById('prevBtn').addEventListener('click', () => {
