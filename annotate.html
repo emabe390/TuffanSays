@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cat Mouth Annotator</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; max-width: 900px; margin: auto; }
+  img { max-width: 100%; border: 2px solid #333; cursor: crosshair; display: block; }
+  .controls { margin: 15px 0; display: flex; gap: 10px; align-items: center; }
+  pre { background: #f4f4f4; padding: 10px; overflow: auto; max-height: 200px; }
+  .marker {
+    position: absolute; width: 12px; height: 12px; background: red;
+    border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none;
+    border: 2px solid white;
+  }
+  .img-wrap { position: relative; display: inline-block; }
+</style>
+</head>
+<body>
+<h1>Cat Mouth Annotator</h1>
+<p>Click on the cat's mouth to set the coordinates. Use the buttons to navigate between images.</p>
+
+<div class="controls">
+  <button id="prevBtn">Previous</button>
+  <span id="counter">1 / 1</span>
+  <button id="nextBtn">Next</button>
+  <button id="saveBtn">Download Updated JSON</button>
+</div>
+
+<div class="img-wrap" id="imgWrap">
+  <img id="catImg" src="" alt="Cat">
+</div>
+
+<p id="status"></p>
+
+<h2>Updated cat_photos.json</h2>
+<pre id="jsonOut"></pre>
+
+<script>
+let photos = [];
+let current = 0;
+
+async function load() {
+  const res = await fetch('cat_photos.json');
+  photos = await res.json();
+  show(current);
+}
+
+function show(index) {
+  current = index;
+  const p = photos[current];
+  const img = document.getElementById('catImg');
+  const wrap = document.getElementById('imgWrap');
+  img.src = p.file;
+  document.getElementById('counter').textContent = `${current + 1} / ${photos.length}`;
+
+  // clear old markers
+  wrap.querySelectorAll('.marker').forEach(m => m.remove());
+
+  img.onload = () => {
+    if (p.mouth) {
+      placeMarker(p.mouth.x, p.mouth.y);
+    }
+  };
+
+  updateJson();
+}
+
+function placeMarker(x, y) {
+  const wrap = document.getElementById('imgWrap');
+  wrap.querySelectorAll('.marker').forEach(m => m.remove());
+  const m = document.createElement('div');
+  m.className = 'marker';
+  m.style.left = x + 'px';
+  m.style.top = y + 'px';
+  wrap.appendChild(m);
+}
+
+function updateJson() {
+  document.getElementById('jsonOut').textContent = JSON.stringify(photos, null, 2);
+}
+
+document.getElementById('catImg').addEventListener('click', (e) => {
+  const rect = e.target.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  photos[current].mouth = { x: Math.round(x), y: Math.round(y) };
+  placeMarker(x, y);
+  updateJson();
+  document.getElementById('status').textContent = `Set mouth for image ${current + 1} to (${Math.round(x)}, ${Math.round(y)})`;
+});
+
+document.getElementById('prevBtn').addEventListener('click', () => {
+  if (current > 0) show(current - 1);
+});
+document.getElementById('nextBtn').addEventListener('click', () => {
+  if (current < photos.length - 1) show(current + 1);
+});
+document.getElementById('saveBtn').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(photos, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'cat_photos.json';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+load();
+</script>
+</body>
+</html>
