@@ -94,6 +94,12 @@
   <div class="bubble" id="bubble">...</div>
 </div>
 
+<div class="controls" id="fileControls" style="display:none; flex-direction:column; gap:8px; align-items:center; margin-bottom:10px;">
+  <label>Load <code>cat_photos.json</code>: <input type="file" id="photosFile" accept=".json"></label>
+  <label>Load <code>speeches.json</code>: <input type="file" id="speechesFile" accept=".json"></label>
+  <button id="loadBtn">Load Selected Files</button>
+</div>
+
 <div class="controls">
   <button id="newBtn">New Cat &amp; Speech</button>
 </div>
@@ -109,6 +115,35 @@
   let photos = [];
   let speeches = [];
 
+  async function loadFromFiles() {
+    const pFile = document.getElementById('photosFile').files[0];
+    const sFile = document.getElementById('speechesFile').files[0];
+    if (!pFile || !sFile) {
+      errorDiv.textContent = 'Please select both JSON files.';
+      return false;
+    }
+    const [pText, sText] = await Promise.all([
+      pFile.text(),
+      sFile.text()
+    ]);
+    photos = JSON.parse(pText);
+    speeches = JSON.parse(sText);
+    errorDiv.textContent = '';
+    return true;
+  }
+
+  function tryStart() {
+    const annotated = photos.filter(p => p.mouth && typeof p.mouth.x === 'number' && typeof p.mouth.y === 'number');
+    const pool = annotated.length > 0 ? annotated : photos;
+    if ((pool.length === 0 && photos.length === 0) || speeches.length === 0) {
+      errorDiv.textContent = 'No cats or speeches available.';
+      return false;
+    }
+    update();
+    document.getElementById('newBtn').addEventListener('click', update);
+    return true;
+  }
+
   try {
     const [pRes, sRes] = await Promise.all([
       fetch('cat_photos.json'),
@@ -116,13 +151,15 @@
     ]);
     photos = await pRes.json();
     speeches = await sRes.json();
+    tryStart();
   } catch (e) {
-    errorDiv.textContent = 'Failed to load data: ' + e.message;
-    return;
+    errorDiv.textContent = 'Cannot auto-load over file://. Please select both JSON files below.';
+    document.getElementById('fileControls').style.display = 'flex';
+    document.getElementById('loadBtn').addEventListener('click', async () => {
+      const ok = await loadFromFiles();
+      if (ok) tryStart();
+    });
   }
-
-  // Filter only photos that have a mouth annotation
-  const annotated = photos.filter(p => p.mouth && typeof p.mouth.x === 'number' && typeof p.mouth.y === 'number');
 
   function pickRandom(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
@@ -130,6 +167,7 @@
 
   function update() {
     errorDiv.textContent = '';
+    const annotated = photos.filter(p => p.mouth && typeof p.mouth.x === 'number' && typeof p.mouth.y === 'number');
     const pool = annotated.length > 0 ? annotated : photos;
     const photo = pickRandom(pool);
     const speech = pickRandom(speeches);
@@ -158,14 +196,6 @@
       }
     };
   }
-
-  if ((annotated.length === 0 && photos.length === 0) || speeches.length === 0) {
-    errorDiv.textContent = 'No cats or speeches available.';
-    return;
-  }
-
-  update();
-  document.getElementById('newBtn').addEventListener('click', update);
 })();
 </script>
 </body>
