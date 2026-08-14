@@ -21,6 +21,10 @@
 <h1>Cat Mouth Annotator</h1>
 <p>Click on the cat's mouth to set the coordinates. Use the buttons to navigate between images.</p>
 
+<div class="controls" id="fileControls" style="display:none;">
+  <label>Load <code>cat_photos.json</code>: <input type="file" id="jsonFile" accept=".json"></label>
+</div>
+
 <div class="controls">
   <button id="prevBtn">Previous</button>
   <span id="counter">1 / 1</span>
@@ -42,9 +46,15 @@ let photos = [];
 let current = 0;
 
 async function load() {
-  const res = await fetch('cat_photos.json');
-  photos = await res.json();
-  show(current);
+  try {
+    const res = await fetch('cat_photos.json');
+    if (!res.ok) throw new Error('not ok');
+    photos = await res.json();
+    show(current);
+  } catch (e) {
+    document.getElementById('fileControls').style.display = 'flex';
+    document.getElementById('status').textContent = 'Cannot auto-load JSON over file://. Please select cat_photos.json below.';
+  }
 }
 
 function show(index) {
@@ -105,6 +115,22 @@ document.getElementById('saveBtn').addEventListener('click', () => {
   a.download = 'cat_photos.json';
   a.click();
   URL.revokeObjectURL(url);
+});
+
+document.getElementById('jsonFile').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      photos = JSON.parse(ev.target.result);
+      show(current);
+      document.getElementById('status').textContent = 'Loaded ' + photos.length + ' photos.';
+    } catch (err) {
+      document.getElementById('status').textContent = 'Invalid JSON: ' + err.message;
+    }
+  };
+  reader.readAsText(file);
 });
 
 load();
