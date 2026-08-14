@@ -1,162 +1,282 @@
 [
   {
     "file": "source_img/IMG_20230505_204641445_HDR.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 450,
+      "y": 469
+    }
   },
   {
     "file": "source_img/IMG_20230506_103427536.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 200,
+      "y": 368
+    }
   },
   {
     "file": "source_img/IMG_20230506_104947901.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 133,
+      "y": 592
+    }
   },
   {
     "file": "source_img/IMG_20230506_124855860.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 415,
+      "y": 926
+    }
   },
   {
     "file": "source_img/IMG_20230506_124903503.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 598,
+      "y": 806
+    }
   },
   {
     "file": "source_img/IMG_20230823_181814_432.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 592,
+      "y": 543
+    }
   },
   {
     "file": "source_img/IMG_20230823_183214_747.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 709,
+      "y": 254
+    }
   },
   {
     "file": "source_img/IMG_20240310_130932_582.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 893,
+      "y": 623
+    }
   },
   {
     "file": "source_img/IMG_20240312_085712_724.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 176,
+      "y": 305
+    }
   },
   {
     "file": "source_img/IMG_20240317_105515_981.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 872,
+      "y": 583
+    }
   },
   {
     "file": "source_img/IMG_20240619_155342_765.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 658,
+      "y": 349
+    }
   },
   {
     "file": "source_img/IMG_20240620_154241_419.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 370,
+      "y": 598
+    }
   },
   {
     "file": "source_img/IMG_20241230_153519_891.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 309,
+      "y": 373
+    }
   },
   {
     "file": "source_img/IMG_20241230_153713_815.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 458,
+      "y": 372
+    }
   },
   {
     "file": "source_img/IMG_20250102_124640_680.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 637,
+      "y": 417
+    }
   },
   {
     "file": "source_img/IMG_20250102_125006_152.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 465,
+      "y": 408
+    }
   },
   {
     "file": "source_img/IMG_20250104_231042_441.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 541,
+      "y": 271
+    }
   },
   {
     "file": "source_img/IMG_20250112_150016_725.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 350,
+      "y": 727
+    }
   },
   {
     "file": "source_img/IMG_20250112_150106_681.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 252,
+      "y": 458
+    }
   },
   {
     "file": "source_img/IMG_20250119_133051_765.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 609,
+      "y": 593
+    }
   },
   {
     "file": "source_img/IMG_20250120_210258_801.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 509,
+      "y": 983
+    }
   },
   {
     "file": "source_img/IMG_20250121_191458_271.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 532,
+      "y": 698
+    }
   },
   {
     "file": "source_img/IMG_20250121_191529_759.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 608,
+      "y": 654
+    }
   },
   {
     "file": "source_img/IMG_20250123_185640_866.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 530,
+      "y": 789
+    }
   },
   {
     "file": "source_img/IMG_20250124_172347_996.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 523,
+      "y": 318
+    }
   },
   {
     "file": "source_img/IMG_20250125_115713_561.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 443,
+      "y": 311
+    }
   },
   {
     "file": "source_img/IMG_20260101_133508530.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 402,
+      "y": 300
+    }
   },
   {
     "file": "source_img/IMG_20260102_133306440.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 573,
+      "y": 304
+    }
   },
   {
     "file": "source_img/IMG_20260103_102720864.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 464,
+      "y": 639
+    }
   },
   {
     "file": "source_img/IMG_20260103_102724319.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 463,
+      "y": 550
+    }
   },
   {
     "file": "source_img/IMG_20260618_173648168.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 299,
+      "y": 535
+    }
   },
   {
     "file": "source_img/IMG_20260619_101649434.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 370,
+      "y": 777
+    }
   },
   {
     "file": "source_img/IMG_20260718_164552171.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 545,
+      "y": 464
+    }
   },
   {
     "file": "source_img/IMG_20260720_183017908.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 397,
+      "y": 319
+    }
   },
   {
     "file": "source_img/IMG_20260726_164821330.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 268,
+      "y": 543
+    }
   },
   {
     "file": "source_img/IMG_20260726_164840935.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 631,
+      "y": 324
+    }
   },
   {
     "file": "source_img/IMG_20260726_164915433.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 216,
+      "y": 353
+    }
   },
   {
     "file": "source_img/IMG_20260726_164942459.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 647,
+      "y": 361
+    }
   },
   {
     "file": "source_img/IMG_20260726_164953822.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 370,
+      "y": 116
+    }
   },
   {
     "file": "source_img/IMG_20260726_164957345.jpg",
-    "mouth": null
+    "mouth": {
+      "x": 375,
+      "y": 372
+    }
   }
 ]
